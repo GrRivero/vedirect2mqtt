@@ -7,7 +7,7 @@ The core parsing logic came from the following project: https://github.com/kario
 
 See the description.txt file for details.
 
-python3 vedirectmqtt/vedirectmqtt.py -s /dev/serial/by-id/usb-VictronEnergy_BV_VE_Direct_cable_VE7X63FI-if00-port0 -o 192.168.1.123 -p 1883 -t emon/mppt/
+python3 vedirectmqtt/vedirectmqtt.py -s /dev/serial/by-id/usb-VictronEnergy_BV_VE_Direct_cable_VE7X63FI-if00-port0 -o 192.168.1.123 -p 1883 -t vedirect2mqtt/mppt/
 
 docker build -t vedirectmqtt .
 

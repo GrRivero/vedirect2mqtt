@@ -2,9 +2,9 @@ Victron VeDirect Protocol to MQTT
 
 This Python script will parse the VeDirect protocol data from Victron devices and post to an MQTT broker.
 
-Usage (this example will post Victron data to emonpi device):
+Usage (this example will post Victron data to vedirect2mqttpi device):
 
-python3 /opt/vedirect/vedirectmqtt.py -s /dev/ttyUSB0 -o localhost -p 1883 -u emonpi -w emonpimqtt2016 -t emon/mppt/
+python3 /opt/vedirect/vedirectmqtt.py -s /dev/ttyUSB0 -o localhost -p 1883 -u vedirect2mqttpi -w vedirect2mqttpimqtt2016 -t vedirect2mqtt/mppt/
 
     Where -     -s      local USB port 
                 -o      MQTT Host
@@ -15,7 +15,7 @@ python3 /opt/vedirect/vedirectmqtt.py -s /dev/ttyUSB0 -o localhost -p 1883 -u em
 
 This python code may also be run in background using the following:
 
-    nohup python3 /opt/vedirect/vedirectmqtt.py -s /dev/ttyUSB0 -o localhost -p 1883 -u emonpi -w emonpimqtt2016 -t emon/mppt/ 2>&1 | /usr/bin/logger -t VED0 &
+    nohup python3 /opt/vedirect/vedirectmqtt.py -s /dev/ttyUSB0 -o localhost -p 1883 -u vedirect2mqttpi -w vedirect2mqttpimqtt2016 -t vedirect2mqtt/mppt/ 2>&1 | /usr/bin/logger -t VED0 &
 
 Which can then be manually stopped with:
 

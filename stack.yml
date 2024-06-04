@@ -11,7 +11,7 @@ services:
       "-s", "/dev/serial/by-id/usb-VictronEnergy_BV_VE_Direct_cable_VE7X63FI-if00-port0",
       "-o", "192.168.1.123",
       "-p", "1883",
-      "-t", "emon/mppt/"
+      "-t", "vedirect2mqtt/mppt/"
     ]
     environment:
       - TZ=Europe/Madrid
