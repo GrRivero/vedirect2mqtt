@@ -1,8 +1,8 @@
 version: '3.8'
 services:
   vedirectmqtt:
-    container_name: vedirectmqtt
-    image: vedirectmqtt
+    container_name: vedirect2mqtt
+    image: vedirect2mqtt
     restart: unless-stopped
     build: .
     devices:
