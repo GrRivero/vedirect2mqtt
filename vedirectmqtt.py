@@ -1,21 +1,22 @@
 ##################################
 # Created on Apr 17, 2022
-# @author: lsimmons
+# Modified on Jun 4, 2024
+# @author: lsimmons, GrRivero
 ##################################
 import serial, time, getopt, sys, datetime
 import paho.mqtt.client as paho
 
-ver     = "VEDMQTT v1.00 - 04/18/2022"
-auth    = "L. Simmons"
-github  = "simmonslr"
+ver     = "VEDMQTT v2.00 - 04/06/2024"
+auth    = "L. Simmons & GrRivero"
+github  = "grrivero"
 
 serPort = "serPort"     # USB Port
 
 mqID    = ver           # MQTT Client ID
 mqHost  = "mqHost"      # MQTT Host
 mqPort  = "mqPort"      # MQTT Host Port
-mqUID   = "mqUID"       # MQTT Host User ID
-mqPW    = "mqPW"        # MQTT Host Password
+# mqUID   = "mqUID"       # MQTT Host User ID
+# mqPW    = "mqPW"        # MQTT Host Password
 mqTopic = "mqTopic"     # MQTT Topic
 
 freq    = 5             # only send every
@@ -169,20 +170,26 @@ def print_data_callback ( data ):
         print ( "Exception: {}".format ( ex ))
         time.sleep ( 1 )
 
-    pktCnt = pktCnt + 1    
-    
+    pktCnt = pktCnt + 1
+
 ####################################
 #                                  #
 ####################################
 def mqPost ( dic ):
 
-    global serPort, mqID, mqHost, mqPort, mqUID, mqPW, mqTopic
+    # global serPort, mqID, mqHost, mqPort, mqUID, mqPW, mqTopic
+    global serPort, mqID, mqHost, mqPort, mqTopic
 
     try:
         print ( dic )
-        mq = paho.Client ( mqID )  
-        mq.username_pw_set ( mqUID, mqPW )
+
+        # mq = paho.Client ( mqID )  
+        mq = paho.Client()  
+        # mq.username_pw_set ( mqUID, mqPW )
         mq.connect ( mqHost, int ( mqPort ))
+        # Conectar al broker MQTT (sin usuario y contraseña)
+        mq.connect(mqHost, int ( mqPort ), 60)
+
         mq.publish ( mqTopic + "ver",  ver  )
         mq.publish ( mqTopic + "auth", auth )
         mq.publish ( mqTopic + "github", github )
@@ -206,17 +213,21 @@ def mqPost ( dic ):
 ####################################
 def getArgs ( argv ):
     
-    global serPort, mqHost, mqPort, mqUID, mqPW, mqTopic
+    # global serPort, mqHost, mqPort, mqUID, mqPW, mqTopic
+    global serPort, mqHost, mqPort, mqTopic
 
     try:
-        opts, args = getopt.getopt ( argv,"hs:o:p:u:w:t:", [ "serPort=", "mqHost=", "mqPort=", "mqUID=", "mqPW=", "mqTopic=" ] )
+        # opts, args = getopt.getopt ( argv,"hs:o:p:u:w:t:", [ "serPort=", "mqHost=", "mqPort=", "mqUID=", "mqPW=", "mqTopic=" ] )
+        opts, args = getopt.getopt ( argv,"hs:o:p:u:w:t:", [ "serPort=", "mqHost=", "mqPort=", "mqTopic=" ] )
     except getopt.GetoptError:
-        print ( "vedirectmqtt.py -s <serPort> -o <mqHost> -p <mqPort> -u <mqUID> -w <mqPW> -t <mqTopic>" )
+        # print ( "vedirectmqtt.py -s <serPort> -o <mqHost> -p <mqPort> -u <mqUID> -w <mqPW> -t <mqTopic>" )
+        print ( "vedirectmqtt.py -s <serPort> -o <mqHost> -p <mqPort> -t <mqTopic>" )
         sys.exit ( 2 )
 
     for opt, arg in opts:
         if opt in ( '-h', "--help" ):
-            print ( "vedirectmqtt.py -s <serPort> -o <mqHost> -p <mqPort> -u <mqUID> -w <mqPW> -t <mqTopic>" )
+            # print ( "vedirectmqtt.py -s <serPort> -o <mqHost> -p <mqPort> -u <mqUID> -w <mqPW> -t <mqTopic>" )
+            print ( "vedirectmqtt.py -s <serPort> -o <mqHost> -p <mqPort> -t <mqTopic>" )
             sys.exit()
         elif opt in ("-s", "--serPort"):
             serPort = arg
@@ -224,10 +235,10 @@ def getArgs ( argv ):
             mqHost = arg
         elif opt in ("-p", "--mqPort"):
             mqPort = arg
-        elif opt in ("-u", "--mqUID"):
-            mqUID = arg
-        elif opt in ( "-w", "--mqPW"):
-            mqPW = arg
+        # elif opt in ("-u", "--mqUID"):
+            # mqUID = arg
+        # elif opt in ( "-w", "--mqPW"):
+            # mqPW = arg
         elif opt in ( "-t", "--mqTopic" ):
             mqTopic = arg
 
@@ -245,8 +256,8 @@ if __name__ == '__main__':
     print ( "serPort: " + serPort )
     print ( "mqHost:  " + mqHost  )
     print ( "mqPort:  " + mqPort  )
-    print ( "mqUID:   " + mqUID   )
-    print ( "mqPW:    " + mqPW    )
+    # print ( "mqUID:   " + mqUID   )
+    # print ( "mqPW:    " + mqPW    )
     print ( "mqTopic: " + mqTopic )
 
     ve = vedirect ( serPort )
