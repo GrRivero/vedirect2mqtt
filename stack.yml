@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  vedirectmqtt:
+    container_name: vedirectmqtt
+    image: vedirectmqtt
+    restart: unless-stopped
+    build: .
+    devices:
+      - "/dev/serial/by-id/usb-VictronEnergy_BV_VE_Direct_cable_VE7X63FI-if00-port0:/dev/serial/by-id/usb-VictronEnergy_BV_VE_Direct_cable_VE7X63FI-if00-port0"
+    command: [
+      "-s", "/dev/serial/by-id/usb-VictronEnergy_BV_VE_Direct_cable_VE7X63FI-if00-port0",
+      "-o", "192.168.1.123",
+      "-p", "1883",
+      "-t", "emon/mppt/"
+    ]
+    environment:
+      - TZ=Europe/Madrid
